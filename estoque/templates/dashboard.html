@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard de Produtos</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .table-container {
+            width: 80%;
+            margin-bottom: 30px; /* Espaço entre as tabelas */
+            background-color: #222; /* Fundo das tabelas */
+            border-radius: 10px; /* Bordas arredondadas para as tabelas */
+            padding: 20px; /* Espaço interno das tabelas */
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); /* Sombra para um efeito elevado */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center; /* Centraliza o texto nas células */
+            border-bottom: 1px solid #444;
+        }
+        th {
+            background-color: #333;
+        }
+        h1 {
+            color: #fff; /* Título com cor destacada */
+            margin-bottom: 40px; /* Espaço entre o título e a primeira tabela */
+        }
+        .top-right {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        a {
+            color: #76a5af;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #bbd7e9;
+        }
+        button {
+            background-color: #FF5733;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #FF704D;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-right">
+        <!-- Botão de Logout -->
+        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+        <!-- Link para voltar para a Home -->
+        <a href="{% url 'welcome_page' %}" style="margin-left: 10px;">Voltar para a página inicial</a>
+    </div>
+
+    <h1>Dashboard de Produtos</h1>
+
+    <div class="table-container">
+        <!-- Tabela para Contagem de Produtos por Nome -->
+        <table>
+            <tr>
+                <th>Nome do Produto</th>
+                <th>Quantidade</th>
+            </tr>
+            {% for nome, total in count_by_name %}
+            <tr>
+                <td>{{ nome }}</td>
+                <td>{{ total }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="table-container">
+        <!-- Tabela para Contagem de Produtos por Categoria -->
+        <table>
+            <tr>
+                <th>Categoria</th>
+                <th>Quantidade</th>
+            </tr>
+            {% for categoria, total in count_by_categoria %}
+            <tr>
+                <td>{{ categoria }}</td>
+                <td>{{ total }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="table-container">
+        <!-- Tabela para Faixas de Preço -->
+        <table>
+            <tr>
+                <th>Faixa de Preço</th>
+                <th>Quantidade</th>
+            </tr>
+            {% for range in price_ranges %}
+            <tr>
+                <td>{{ range.range }}</td>
+                <td>{{ range.count }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</body>
+</html>

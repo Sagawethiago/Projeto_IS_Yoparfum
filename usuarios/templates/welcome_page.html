@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000; /* Cor de fundo preta */
+            color: #fff; /* Cor do texto branca */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        a, button {
+            background-color: #444; /* Fundo cinza escuro para os links */
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px; /* Espaço entre os links */
+            cursor: pointer;
+            border: none;
+        }
+        a:hover, button:hover {
+            background-color: #666; /* Mudança de cor ao passar o mouse */
+        }
+        /* Estilo específico para o botão de API */
+        a[href="{% url 'api_produtos' %}"] {
+            background-color: #0077cc; /* Azul egeu */
+        }
+        /* Estilo para o botão de Logout */
+        button[type="submit"] {
+            background-color: #ff0000; /* Cor vermelha */
+        }
+    </style>
+</head>
+<body>
+    <h1>Bem-vindo à Plataforma!</h1>
+    <p>Selecione uma opção:</p>
+    <a href="{% url 'add_produto' %}">Cadastrar Produto</a>
+    <a href="{% url 'list_produtos' %}">Consultar Entradas</a>
+    <!-- Adicionando botões para o dashboard e a API -->
+    <a href="{% url 'dashboard' %}">Dashboard</a>
+    <a href="{% url 'api_produtos' %}">API</a>
+    <!-- Botão de Logout -->
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>

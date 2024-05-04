@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listagem de Produtos</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        .top-right {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        a {
+            color: #76a5af;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #bbd7e9;
+        }
+        button {
+            background-color: #FF5733; /* Cor vermelha */
+            color: #fff; /* Cor do texto branca */
+            cursor: pointer;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #FF704D; /* Cor vermelha mais clara no hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="top-right">
+        <!-- Botão de Logout -->
+        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+        <!-- Link para voltar para a Home -->
+        <a href="{% url 'welcome_page' %}" style="margin-left: 10px;">Voltar para a página inicial</a>
+    </div>
+
+    <h1>Produtos</h1>
+    <div id="produtos"></div>
+
+    <script>
+        fetch('http://localhost:8000/estoque/api/produtos/') // Ajuste a URL conforme necessário
+        .then(response => response.json())
+        .then(data => {
+            const produtosDiv = document.getElementById('produtos');
+            data.forEach(produto => {
+                const p = document.createElement('p');
+                p.textContent = `${produto.nome} - ${produto.categoria_nome} - R$${produto.preco_venda}`;
+                produtosDiv.appendChild(p);
+            });
+        })
+        .catch(error => console.error('Erro ao buscar produtos:', error));
+    </script>
+</body>
+</html>

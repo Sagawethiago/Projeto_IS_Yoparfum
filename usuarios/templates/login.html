@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block 'body' %}
+<style>
+    body {
+        background-color: #000; /* Cor de fundo preta */
+        color: #fff; /* Cor do texto branca */
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        display: flex;
+        justify-content: flex-start; /* Alinhando conteúdo para começar no topo */
+        align-items: center;
+        min-height: 100vh;
+        flex-direction: column;
+        width: 100%;
+        padding: 20px;
+    }
+    .content {
+        margin-top: 50px; /* Espaço adicional no topo dentro do container */
+        width: 100%;
+        max-width: 400px; /* Limitando a largura do formulário para melhor estética */
+    }
+    h1, h2 {
+        text-align: center;
+        margin: 10px 0;
+    }
+    h1 {
+        font-size: 24px;
+    }
+    h2 {
+        font-size: 18px;
+        font-weight: normal;
+        opacity: 0.8;
+    }
+    label {
+        margin-bottom: 5px;
+        display: block;
+    }
+    input[type="email"], input[type="password"], input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 5px;
+    }
+    input[type="email"], input[type="password"] {
+        background-color: #222;
+        color: #fff;
+    }
+    input[type="submit"] {
+        background-color: #28a745; /* Verde, similar ao .btn-success */
+        color: #fff;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #218838; /* Efeito hover para o botão */
+    }
+    .form-control {
+        display: block;
+        width: 100%;
+    }
+</style>
+<div class="container">
+    <h1>Bem-vindo ao sistema de estoque da Yoparfum</h1>
+    <h2>Yoparfum: Nossa missão é garantir o impacto da sua presença</h2>
+    <div class="content">
+        <form action="{% url 'login' %}" method="POST">{% csrf_token %}
+            <label>E-mail</label>
+            <input type="email" placeholder="Digite seu E-mail..." name="email" class="form-control">
+            <label>Senha</label>
+            <input type="password" placeholder="Digite sua Senha..." name="senha" class="form-control">
+            <input type="submit" class="btn btn-success" value="Entrar">
+        </form>
+    </div>
+</div>
+{% endblock %}

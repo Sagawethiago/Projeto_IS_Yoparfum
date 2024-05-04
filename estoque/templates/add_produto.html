@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load filters %}
+
+{% block 'body' %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #000; /* Cor de fundo preta */
+        color: #fff; /* Cor do texto branca */
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+    .top-right {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+    .form-control, .btn, select {
+        margin-bottom: 10px; /* Espaçamento entre os campos */
+        background-color: #222;
+        color: #fff;
+        border: 1px solid #444;
+        padding: 8px; /* Ajuste para corresponder ao primeiro template */
+        border-radius: 5px;
+    }
+    .btn {
+        background-color: #FF5733; /* Vermelho */
+        border: none;
+    }
+    .btn:hover {
+        background-color: #FF704D; /* Vermelho mais claro no hover */
+    }
+    .btn-success {
+        background-color: #28a745; /* Verde */
+        border: none;
+    }
+    .btn-success:hover {
+        background-color: #218838; /* Verde mais escuro no hover */
+    }
+    .alert {
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+    .card {
+        background-color: #333;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+    .card img {
+        border-radius: 5px;
+    }
+    .badge {
+        background-color: #007bff;
+    }
+    a {
+        color: #76a5af;
+        text-decoration: none;
+    }
+    a:hover {
+        color: #bbd7e9;
+    }
+</style>
+<div class="container">
+    <div class="top-right">
+        <!-- Botão de Logout -->
+        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Logout</button> <!-- Botão com cor vermelha -->
+        </form>
+        <!-- Link para voltar para a Home -->
+        <a href="{% url 'welcome_page' %}" style="margin-left: 10px;">Voltar para a página inicial</a>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{message.tags}}">{{message}}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form action="{% url 'add_produto' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>Imagens:</label>
+        <input class="form-control" type="file" name="imagens" multiple>
+        <label>Nome:</label>
+        <input class="form-control" type="text" name="nome">
+        <label>Selecione a categoria do produto</label>
+        <select class="form-control" name="categoria">
+            {% for categoria in categorias %}
+                <option value="{{categoria.id}}">{{categoria.titulo}}</option>
+            {% endfor %}
+        </select>
+        <label>Quantidade:</label>
+        <input class="form-control" type="number" name="quantidade">
+        <label>Preço unitário de compra:</label>
+        <input class="form-control" type="number" name="preco_compra">
+        <label>Preço unitário de venda:</label>
+        <input class="form-control" type="number" name="preco_venda">
+        <input class="btn btn-success" type="submit" value="Enviar"> <!-- Botão de Enviar com cor verde -->
+    </form>
+
+    <div class="listar_produtos">
+        <div class="row">
+            {% for produto in produtos %}
+                <div class="col-md">
+                    <div class="card" style="width: 18rem;">
+                    {% if produto|get_first_image %}
+                        <img width="100%" class="card-img-top" src="{{produto|get_first_image}}">
+                    {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{produto.nome}}</h5>
+                            <span class="badge badge-info">{{produto.categoria}}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

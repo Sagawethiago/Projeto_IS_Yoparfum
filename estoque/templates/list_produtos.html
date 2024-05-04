@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listagem de Produtos</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+        th {
+            background-color: #333;
+        }
+        input, select, button {
+            padding: 8px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        input[type="text"], input[type="number"], select {
+            background-color: #222;
+            color: #fff;
+        }
+        button {
+            background-color: #FF5733; /* Cor vermelha */
+            color: #fff; /* Cor do texto branca */
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #FF704D; /* Cor vermelha mais clara no hover */
+        }
+        .btn-success {
+            background-color: #28a745; /* Verde */
+            color: #fff; /* Cor do texto branca */
+        }
+        .btn-success:hover {
+            background-color: #218838; /* Verde mais escuro no hover */
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .top-right {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        a {
+            color: #76a5af;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #bbd7e9;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-right">
+        <!-- Botão de Logout -->
+        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Logout</button> <!-- Botão com cor vermelha -->
+        </form>
+        <!-- Link para voltar para a Home -->
+        <a href="{% url 'welcome_page' %}" style="margin-left: 10px;">Voltar para a página inicial</a>
+    </div>
+
+    <h1>Produtos</h1>
+    <form method="get" action="">
+        <input type="text" name="nome" placeholder="Nome do produto" value="{{ nome }}">
+        <select name="categoria_id">
+            <option value="">Todas as categorias</option>
+                    {% for categoria in categorias %}
+                        <option value="{{categoria.id}}">{{categoria.titulo}}</option>
+                    {% endfor %}
+        </select>
+        <input type="number" name="preco_min" placeholder="Preço mínimo" value="{{ preco_min }}">
+        <input type="number" name="preco_max" placeholder="Preço máximo" value="{{ preco_max }}">
+        <button type="submit" class="btn btn-success">Filtrar</button> <!-- Botão de Filtrar com cor verde -->
+    </form>
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Preço de unitário de venda</th>
+            <th>Quantidade</th>
+        </tr>
+        {% for produto in produtos %}
+        <tr>
+            <td>{{ produto.nome }}</td>
+            <td>{{ produto.categoria }}</td>
+            <td>{{ produto.preco_venda }}</td>
+            <td>{{ produto.quantidade }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
